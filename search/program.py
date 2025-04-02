@@ -16,14 +16,17 @@ def get_all_movements(board: dict[Coord, CellState], position: Coord) -> list[li
 
     directions = [
         Direction.Down,
-        Direction.Left,
-        Direction.Right,
         Direction.DownLeft,
-        Direction.DownRight
+        Direction.DownRight,
+        Direction.Left,
+        Direction.Right
     ]
 
     for direction in directions:
-        possible_position = position + direction
+        try:
+            possible_position = position + direction
+        except ValueError:
+            continue
         if (valid_position(position, direction) and possible_position in board and
                 board[possible_position] not in (CellState.RED, CellState.BLUE)):
             movements.append(direction)
@@ -35,12 +38,17 @@ def get_all_movements(board: dict[Coord, CellState], position: Coord) -> list[li
             movements.append(path.copy())
 
         for direction in directions:
-            print(pos, direction)
-            jumped_pos = pos + direction
+            try:
+                jumped_pos = pos + direction
+            except ValueError:
+                continue
             if jumped_pos not in board or board[jumped_pos] not in (CellState.RED, CellState.BLUE):
                 continue
 
-            new_pos = jumped_pos + direction
+            try:
+                new_pos = jumped_pos + direction
+            except ValueError:
+                continue
             if (valid_position(jumped_pos, direction) and new_pos in board and
                     board[new_pos] not in (CellState.RED, CellState.BLUE)):
                 new_path = path + [direction]
