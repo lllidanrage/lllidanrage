@@ -117,13 +117,14 @@ def search(
 
         movements = get_all_movements(board, current_coord)
         for movement in movements:
-            next_coord = None
             if isinstance(movement, Direction):
                 next_coord = current_coord + movement
             else:
+                next_coord = current_coord
                 for direction in movement:
                     try:
-                        next_coord = current_coord + direction + direction
+                        jumped_coord = next_coord + direction
+                        next_coord = jumped_coord + direction
                     except ValueError:
                         continue
 
