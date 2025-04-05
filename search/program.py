@@ -122,7 +122,10 @@ def search(
                 next_coord = current_coord + movement
             else:
                 for direction in movement:
-                    next_coord = current_coord + direction + direction
+                    try:
+                        next_coord = current_coord + direction + direction
+                    except ValueError:
+                        continue
 
             if next_coord not in visited:
                 visited.add(next_coord)
